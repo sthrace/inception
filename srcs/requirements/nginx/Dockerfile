@@ -1,9 +1,18 @@
-FROM	debian:buster
+FROM    debian:buster
 
-RUN		apt-get update
-RUN		apt -y install wget openssl nginx
+RUN     apt-get -y update
+RUN     apt-get -y upgrade
 
-RUN 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    	-subj "/C=ru/ST=Central/L=Moscow/O=CodingSchool/OU=6thWave/CN=sthrace/" \
-    	-keyout /etc/ssl/sthrace.key \
-    	-out /etc/ssl/sthrace.crt
+RUN     apt-get install -y wget openssl nginx
+
+RUN     openssl req -x509 -nodes -days 365 \
+        -newkey rsa:2048 -subj "/C=RU/ST=Moscow/L=School21/O=6Wave/CN=sthrace" \
+        -keyout /etc/ssl/private/nginx.key \
+        -out /etc/ssl/certs/nginx.crt
+COPY    /conf/nginx.conf        /etc/nginx
+COPY    /tools/start.sh         /
+
+EXPOSE  80 443
+
+ENTRYPOINT      sh start.sh
+~                                
