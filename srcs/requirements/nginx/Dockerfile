@@ -15,4 +15,3 @@ COPY    /tools/start.sh         /
 EXPOSE  80 443
 
 ENTRYPOINT      sh start.sh
-~                                
