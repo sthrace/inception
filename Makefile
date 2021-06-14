@@ -1,15 +1,37 @@
+utils:
+        @sudo apt-get update -y
+        @sudo apt-get upgrade -y
+        @sudo apt-get install curl
+        @sudo apt-get install apt-transport-https
+        @sudo apt-get install ca-certificates
+        @sudo apt-get install software-properties-common
 docker:
-		rm -rf ~/.docker
-		rm -rf ~/.minikube
-		rm -rf ~/goinfre/sthrace/.docker
-		rm -rf ~/goinfre/sthrace/.minikube
-		brew reinstall docker
-		mkdir ~/.docker
-		mv ~/.docker ~/goinfre/sthrace/
-		ln -s ~/goinfre/sthrace/.docker ~/.docker
-dm:
-		docker-machine create --driver virtualbox default
-		# eval $$(docker-machine env default) --> not functional
-		# docker-compose up --> line for future
+        @sudo apt-get uninstall docker
+        @curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        @sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+        @sudo apt update
+        @apt-cache policy docker-cesudo
+        @sudo apt-get install docker-ce
+        @sudo usermod -aG docker $(whoami);
+        @su - ${USER}
+        @id -nG
+compose:
+        @sudo apt-get -y install pip
+        @sudo pip install docker-compose
+clear:
+        @docker stop $$(docker ps -qa)
+        @docker rm $$(docker ps -qa)
+        @docker rmi $$(docker images -q)
+        @docker volume rm $$(docker volume ls -q)
+        @docker network rm $$(docker network ls -q)
 start:
-		RUN ./srcs/requirements/nginx/docker build -t nginx .
+        @docker-compose -f srcs/docker-compose.yml up
+stop:
+        @docker-compose -f srcs/docker-compose.yml down
+re:
+        @docker-compose -f srcs/docker-compose.yml up --build
+git:
+        @git add *
+        @git commit -m "commit"
+        @git push
+.SILENT:
