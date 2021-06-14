@@ -1,0 +1,15 @@
+version: '3'
+services:
+        nginx:
+                image: nginx
+                ports:
+                        -80:80
+                        -443:443
+                environment:
+                        .env
+        mysql:
+                image: mariadb
+                ports:
+                        -50:50
+                environment:
+                        .env
