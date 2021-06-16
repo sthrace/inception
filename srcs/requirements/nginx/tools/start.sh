@@ -1,1 +1,1 @@
-service nginx start
+exec "$@"
