@@ -17,6 +17,16 @@ docker:
 	@su - ${USER}
 	@id -nG
 
+dockermac:
+	@cd ~
+	@rm -rf ~/.docker
+	@brew uninstall docker
+	@brew cleanup
+	@brew update
+	@brew install docker
+	@mkdir ~/.docker && mv ~/.docker ~/goinfre/ && ln -s ~/goinfre/.docker ~/.docker
+	@brew reinstall docker-compose
+
 compose:
 	@sudo apt-get -y install pip
 	@sudo pip install docker-compose
