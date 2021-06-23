@@ -1,59 +1,55 @@
-version: '3.7'
+version: '3'
 services:
  nginx:
   image: nginx
-#   env_file: .env
-  restart: unless-stopped
-#   volumes:
-#    - wordpress:/var/www/html
+  restart: always
+  volumes:
+   - /home/sthrace/data/html:/var/www/html
   build: requirements/nginx
-  # depends_on:
-  #  - wordpress
-  user: root
+  links:
+   - wordpress
   networks: 
    - incept
   container_name: nginx
   ports:
    - "443:443"
-#  mysql:
-#   image: mariadb
-#   env_file: .env
-#   restart: unless-stopped
-#   # volumes:
-#   #  - mysql:/var/lib/mysql
-#   build: requirements/mariadb
-#   user: root
-#   networks: 
-#    - incept
-#   container_name: mariadb
+ mysql:
+  image: mariadb
+  env_file: .env
+  restart: always
+  volumes:
+   - /home/sthrace/data/mysql:/var/lib/mysql
+  build: requirements/mariadb
+  networks: 
+   - incept
+  container_name: mariadb
  wordpress:
   image: wordpress
   env_file: .env
-  restart: unless-stopped
-#   # volumes:
-#   #  - wordpress:/var/www/html
+  restart: always
+  volumes:
+   - /home/sthrace/data/html:/var/www/html
   build: requirements/wordpress
-#   # depends on:
-#   #  - mysql
-  user: root
+  depends_on:
+   - mysql
   networks: 
    - incept
   container_name: wordpress
-  ports:
-    - "9000:9000"
-# volumes:
-#  wordpress:
-#   driver: local
-#   driver_opts:
-#    type: none
-#    o: bind
-#    device: /home/sthrace/data/wordpress
-#  mysql:
-#   driver: local
-#   driver_opts:
-#    type: none
-#    o: bind
-#    device: /home/sthrace/data/mysql
+  links:
+   - mysql
+volumes:
+ wordpress:
+  driver: local
+  driver_opts:
+   type: none
+   o: bind
+   device: /home/sthrace/data/html
+ mysql:
+  driver: local
+  driver_opts:
+   type: none
+   o: bind
+   device: /home/sthrace/data/mysql
 networks:
  incept:
   name: incept
