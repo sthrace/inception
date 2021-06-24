@@ -1,7 +1,7 @@
 FROM	debian:buster
 
 RUN     	apt-get update && apt-get -y upgrade
-RUN			apt-get install -y wget tar php-fpm php-mysql php-mbstring php-cgi
+RUN			apt-get install -y wget tar php-fpm php-mysql php-mbstring
 RUN 		wget http://wordpress.org/latest.tar.gz && \
 			tar -xzvf latest.tar.gz && rm -rf latest.tar.gz && \
 			mkdir var/www && mkdir var/www/html && mv wordpress /var/www/html/

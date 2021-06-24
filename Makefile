@@ -12,23 +12,11 @@ docker:
 	@sudo apt update
 	@apt-cache policy docker-cesudo
 	@sudo apt-get install docker-ce
-	@sudo usermod -aG docker $(whoami);
-	@su - ${USER}
-	@id -nG
-
-dockermac:
-	@cd ~
-	@rm -rf ~/.docker
-	@brew uninstall docker
-	@brew cleanup
-	@brew update
-	@brew install docker
-	@mkdir ~/.docker && mv ~/.docker ~/goinfre/ && ln -s ~/goinfre/.docker ~/.docker
-	@brew reinstall docker-compose
-
-compose:
 	@sudo apt-get -y install pip
 	@sudo pip install docker-compose
+	@sudo usermod -aG docker $(whoami)
+	@su - ${USER}
+	@id -nG
 
 clear:
 	@docker stop $$(docker ps -qa)
@@ -52,4 +40,4 @@ git:
 	@git push
 
 .SILENT:
-.PHONY: git
+.PHONY: git stop start clear docker utils
