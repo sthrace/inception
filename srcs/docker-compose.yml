@@ -1,12 +1,53 @@
 version: '3'
 services:
- nginx:
-  image: nginx
-  restart: always
-  build: requirements/nginx
-  container_name: nginx
-  ports:
-   - "443:443"
-  extra_hosts:
-    - "sthrace.42.fr:127.0.0.1"
-  env_file: .env
+  mysql:
+    build: requirements/mariadb
+    container_name: mariadb
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MYSQL_DATABASE=wordpress
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - incept-network
+  wordpress:
+    build: requirements/wordpress
+    container_name: wordpress
+    restart: unless-stopped
+    depends_on:
+      - mysql    
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=mysql:3306
+      - WORDPRESS_DB_USER=$MYSQL_USER
+      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
+      - WORDPRESS_DB_NAME=wp
+    volumes:
+      - wp:/var/www/html/wordpress
+    networks:
+      - incept-network
+  nginx:
+    build: requirements/nginx
+    container_name: nginx
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    volumes:
+      - wp:/var/www/html/wordpress
+    ports:
+    - "443:443"   
+    networks:
+      - incept-network
+volumes:
+  wp:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/sthrace/data/wordpress
+  dbdata:
+
+networks:
+  incept-network:
+    driver: bridge

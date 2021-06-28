@@ -1,8 +1,10 @@
 FROM 	debian:buster
 
-RUN     apt-get -y update && apt-get -y upgrade php-fpm
+RUN     apt-get -y update
 RUN		apt-get -y install mariadb-server
-# COPY  	./conf/	.
-# RUN	chmod 777 ./mysql.sh
+
+COPY    ./conf/mysql.sh /mysql.sh
+RUN     chown -R www-data:www-data /mysql.sh
+RUN     chmod -R 777 /mysql.sh
 EXPOSE 	3306
-CMD 		["/usr/sbin/mysql", "--nodaemonize"]
+ENTRYPOINT [ "sh", "/mysql.sh" ]

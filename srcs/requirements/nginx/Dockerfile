@@ -14,7 +14,7 @@ RUN     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     	-out /etc/ssl/sthrace.crt
 
 RUN 	chown -R www-data:www-data /var/www/
-RUN 	chmod -R 755 /var/www
+RUN 	chmod -R 755 /var/www/
 RUN 	chmod -R 777 /etc/ssl/*
 
 EXPOSE  443
