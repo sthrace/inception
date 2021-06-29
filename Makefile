@@ -25,6 +25,9 @@ clear:
 	@docker volume rm $$(docker volume ls -q)
 	@docker network rm $$(docker network ls -q)
 
+prune:
+	@docker system prune -a -f
+
 start:
 	@docker-compose -f srcs/docker-compose.yml up
 
@@ -40,4 +43,4 @@ git:
 	@git push
 
 .SILENT:
-.PHONY: git stop start clear docker utils
+.PHONY: git stop start clear docker utils re prune
