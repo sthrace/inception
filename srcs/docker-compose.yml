@@ -9,7 +9,9 @@ services:
       - incept-network
     env_file: .env
     volumes:
-      - wp:/var/www/html/wordpress
+      - wp:/var/www/
+    depends_on: 
+      - mysql
   nginx:
     image: nginx
     build: requirements/nginx
@@ -19,6 +21,18 @@ services:
     - "443:443"
     networks:
       - incept-network
+    volumes:
+      - wp:/var/www/
+    depends_on: 
+      - wordpress
+  mysql:
+    image: mysql
+    build: requirements/mariadb
+    container_name: mariadb
+    restart: unless-stopped
+    networks:
+      - incept-network
+    env_file: .env
 networks:
   incept-network:
     driver: bridge
@@ -29,3 +43,9 @@ volumes:
       o: bind
       type: none
       device: /Users/sthrace/data/wordpress
+  db:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /Users/sthrace/data/mysql
