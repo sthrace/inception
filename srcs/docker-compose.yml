@@ -26,8 +26,14 @@ services:
     depends_on: 
       - wordpress
   mysql:
-    image: mysql
-    build: requirements/mariadb
+    image: mariadb
+    build: 
+      context: requirements/mariadb/
+      args:
+        DB_NAME: $MYSQL_DB
+        DB_USER: $MYSQL_USER
+        DB_PASS: $MYSQL_PASSWORD
+        RT_PASS: $MYSQL_ROOT_PASSWORD
     container_name: mariadb
     restart: unless-stopped
     networks:
@@ -37,7 +43,6 @@ services:
     env_file: .env
 networks:
   incept-network:
-    driver: bridge
 volumes:
   wp:
     driver: local

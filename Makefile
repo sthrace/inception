@@ -37,6 +37,9 @@ stop:
 re:
 	@docker-compose -f srcs/docker-compose.yml up --build -d
 
+host:
+	@sudo sed -i "s/127.0.0.1	localhost;/127.0.0.1	sthrace.42.fr;/" /etc/hosts
+
 git:
 	@git add *
 	@git commit -m "commit"
