@@ -1,7 +1,7 @@
 FROM debian:buster
 
 RUN apt-get update
-RUN apt-get install -y mariadb-server
+RUN apt-get install -y apt-utils mariadb-server
 
 COPY    conf/mysql.sh .
 RUN     chmod +x mysql.sh
