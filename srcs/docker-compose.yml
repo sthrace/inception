@@ -9,7 +9,7 @@ services:
       - incept-network
     env_file: .env
     volumes:
-      - ~/Users/sthrace/data/wp:/var/www/html/wp_vol
+      - wp:/var/www/wordpress
     depends_on: 
       - mysql
   nginx:
@@ -22,7 +22,7 @@ services:
     networks:
       - incept-network
     volumes:
-      - ~/Users/sthrace/data/wp:/var/www/html/wp_vol
+      - wp:/var/www/wordpress
     depends_on: 
       - wordpress
   mysql:
@@ -32,20 +32,22 @@ services:
     restart: unless-stopped
     networks:
       - incept-network
+    volumes:
+      - db:/var/lib/mysql
     env_file: .env
 networks:
   incept-network:
     driver: bridge
-# volumes:
-#   wp:
-    # driver: local
-    # driver_opts:
-    #   o: bind
-    #   type: none
-    #   device: /Users/sthrace/data/wordpress
-  # db:
-    # driver: local
-    # driver_opts:
-    #   o: bind
-    #   type: none
-    #   device: /Users/sthrace/data/mysql
+volumes:
+  wp:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/sthrace/data/wp
+  db:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/sthrace/data/db

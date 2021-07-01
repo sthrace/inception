@@ -14,8 +14,8 @@ docker:
 	@sudo apt-get install docker-ce
 	@sudo apt-get -y install pip
 	@sudo pip install docker-compose
-	@sudo usermod -aG docker $(whoami)
-	@su - ${USER}
+	@sudo usermod -aG docker $$(whoami)
+	@su - $${USER}
 	@id -nG
 
 clear:
