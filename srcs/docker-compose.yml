@@ -26,15 +26,15 @@ services:
     depends_on: 
       - wordpress
   mysql:
-    image: mariadb
+    image: mysql
     build: 
       context: requirements/mariadb/
-      args:
-        DB_NAME: $MYSQL_DB
-        DB_USER: $MYSQL_USER
-        DB_PASS: $MYSQL_PASSWORD
-        RT_PASS: $MYSQL_ROOT_PASSWORD
-    container_name: mariadb
+      # args:
+      #   DB_NAME=$MYSQL_DB
+      #   DB_USER=$MYSQL_USER
+      #   DB_PASS=$MYSQL_PASSWORD
+      #   RT_PASS=$MYSQL_ROOT_PASSWORD
+    container_name: mysql
     restart: unless-stopped
     networks:
       - incept-network
