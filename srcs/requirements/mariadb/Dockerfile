@@ -1,7 +1,7 @@
 FROM alpine:3.12
 
 RUN apk update
-RUN apk add openrc mariadb mariadb-common mariadb-client
+RUN apk add mariadb mariadb-common mariadb-client
 VOLUME  ["/sys/fs/cgroup"]
 RUN     chmod 755 /etc/my.cnf
 RUN     echo "[mysqld]" > /etc/my.cnf; \
@@ -15,4 +15,4 @@ RUN     chmod 777 /mysql.sh
 RUN     mkdir -p /var/run/mysqld
 RUN     chown mysql:mysql /var/run/mysqld
 EXPOSE 3306
-ENTRYPOINT [ "sh", "/mysql.sh" ]
+ENTRYPOINT [ "mysqld" ]
