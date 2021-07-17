@@ -21,12 +21,8 @@ docker:
 clear:
 	@sudo rm -rf /home/sthrace/data/wp
 	@sudo rm -rf /home/sthrace/data/db
-	# @docker stop $$(docker ps -qa)
-	# @docker rm $$(docker ps -qa)
 	@docker rmi $$(docker images -q)
-	@docker volume rm $$(docker volume ls -q)
-	# @docker network rm $$(docker network ls -q)
-	
+	@docker volume rm $$(docker volume ls -q)	
 
 prune:
 	@docker system prune -a -f
@@ -40,8 +36,8 @@ stop:
 	@cd ./srcs && docker-compose down	
 
 host:
-	@echo '127.0.0.1 sthrace.42.fr' >> /etc/hosts 
-	@echo '127.0.0.1 www.sthrace.42.fr' >> /etc/hosts 
+	@sudo echo '127.0.0.1 sthrace.42.fr' >> /etc/hosts 
+	@sudo echo '127.0.0.1 www.sthrace.42.fr' >> /etc/hosts 
 
 git:
 	@git add *

@@ -16,13 +16,13 @@ RUN     echo "[mysqld]" > /etc/my.cnf; \
         echo "datadir=/var/lib/mysql" >> /etc/my.cnf; \
         echo "skip-networking=false" >> /etc/my.cnf; \
         echo "bind-address=0.0.0.0" >> /etc/my.cnf
-RUN     sed -e '/skip-networking/s/^/#/g' -i /etc/my.cnf.d/mariadb-server.cnf
+RUN     sed '/skip-networking/s/^/#/g' /etc/my.cnf.d/mariadb-server.cnf
 COPY	conf/mysql.sh   /
 RUN     chmod +x /mysql.sh
 RUN     mkdir -p /var/run/mysqld
 RUN     chown mysql:mysql /var/run/mysqld
 RUN     /mysql.sh
-EXPOSE 3306
+EXPOSE  3306
 ENTRYPOINT [ "mysqld" ]
 CMD [ "-u root" ]
 

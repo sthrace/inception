@@ -14,7 +14,7 @@ services:
       - mysql
   nginx:
     image: nginx
-    build: requirements/nginx
+    build: ./requirements/nginx
     container_name: nginx
     restart: unless-stopped
     ports:
