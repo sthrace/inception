@@ -29,16 +29,14 @@ prune:
 	@docker system prune -a -f
 
 start:
-	@docker-compose -f srcs/docker-compose.yml up
+	@cd ./srcs && docker-compose up --build -d 
 
 stop:
-	@docker-compose -f srcs/docker-compose.yml down
-
-re:
-	@docker-compose -f srcs/docker-compose.yml up --build -d
+	@cd ./srcs && docker-compose down
 
 host:
-	@sudo sed -i "s/127.0.0.1	localhost;/127.0.0.1	sthrace.42.fr;/" /etc/hosts
+	@echo '127.0.0.1 sthrace.42.fr' >> /etc/hosts 
+	@echo '127.0.0.1 www.sthrace.42.fr' >> /etc/hosts 
 
 git:
 	@git add *

@@ -2,7 +2,12 @@ version: '3'
 services:
   wordpress:
     image: wordpress
-    build: requirements/wordpress
+    build: 
+      context: ./requirements/wordpress/
+      args:
+        - SQL_DB=$SQL_DB
+        - SQL_USER=$SQL_USER
+        - SQL_PWD=$SQL_PWD
     container_name: wordpress
     restart: unless-stopped
     networks:
@@ -25,15 +30,17 @@ services:
       - wp:/var/www/wordpress
     depends_on: 
       - wordpress
+    env_file: .env
   mysql:
     image: mysql
     build: 
-      context: requirements/mariadb/
-      # args:
-      #   DB_NAME=$MYSQL_DB
-      #   DB_USER=$MYSQL_USER
-      #   DB_PASS=$MYSQL_PASSWORD
-      #   RT_PASS=$MYSQL_ROOT_PASSWORD
+      context: ./requirements/mariadb/
+      args:
+        - SQL_DB=$SQL_DB
+        - SQL_USER=$SQL_USER
+        - SQL_PWD=$SQL_PWD
+        - SQL_ROOT=$SQL_ROOT
+        - SQL_ROOT_PWD=$SQL_ROOT_PWD
     container_name: mysql
     restart: unless-stopped
     networks:
@@ -41,7 +48,7 @@ services:
     volumes:
       - db:/var/lib/mysql
     env_file: .env
-networks:
+networks: 
   incept-network:
 volumes:
   wp:

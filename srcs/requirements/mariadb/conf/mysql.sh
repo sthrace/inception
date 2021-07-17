@@ -1,10 +1,13 @@
 mkdir -p /var/lib/mysql
 chmod 777 /var/lib/*
 
+mariadb-install-db -u root
+
 mysqld -u root & sleep 5
 
-echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DB;" | mysql -u root
-echo "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" | mysql -u root
-echo "GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'%' WITH GRANT OPTION;" | mysql -u root
-echo "FLUSH PRIVILEGES;" | mysql -u root
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS $SQL_DB;"
+mysql -u root -e "CREATE USER IF NOT EXISTS '$SQL_USER'@'%' IDENTIFIED BY '$SQL_PWD';"
+mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO '$SQL_USER'@'%' WITH GRANT OPTION;"
+mysql -u root -e "FLUSH PRIVILEGES;"
+mysql -u root -e "ALTER USER '$SQL_ROOT'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PWD';"
 
