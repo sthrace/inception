@@ -8,6 +8,5 @@ RUN     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     	-keyout /etc/ssl/sthrace.key \
     	-out /etc/ssl/sthrace.crt
 RUN		mkdir -p /run/nginx
-EXPOSE 443
 ENTRYPOINT [ "nginx" ]
 CMD	[ "-g", "daemon off;" ]

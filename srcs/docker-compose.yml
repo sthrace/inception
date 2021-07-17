@@ -2,12 +2,7 @@ version: '3'
 services:
   wordpress:
     image: wordpress
-    build: 
-      context: ./requirements/wordpress/
-      args:
-        - SQL_DB=$SQL_DB
-        - SQL_USER=$SQL_USER
-        - SQL_PWD=$SQL_PWD
+    build: ./requirements/wordpress/
     container_name: wordpress
     restart: unless-stopped
     networks:

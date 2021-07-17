@@ -1,13 +1,14 @@
 FROM alpine:3.12
 
 RUN apk update
-RUN apk add mariadb mariadb-common mariadb-client
+RUN apk add mariadb mariadb-common mariadb-client bash
 VOLUME  ["/sys/fs/cgroup"]
 ARG     SQL_DB
 ARG     SQL_USER
 ARG     SQL_PWD
 ARG     SQL_ROOT
 ARG     SQL_ROOT_PWD
+COPY    conf/wp.sql /
 RUN     chmod 755 /etc/my.cnf
 RUN     echo "[mysqld]" > /etc/my.cnf; \
         echo "user=root" >> /etc/my.cnf; \

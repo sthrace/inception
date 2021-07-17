@@ -19,20 +19,25 @@ docker:
 	@id -nG
 
 clear:
-	@docker stop $$(docker ps -qa)
-	@docker rm $$(docker ps -qa)
+	@sudo rm -rf /home/sthrace/data/wp
+	@sudo rm -rf /home/sthrace/data/db
+	# @docker stop $$(docker ps -qa)
+	# @docker rm $$(docker ps -qa)
 	@docker rmi $$(docker images -q)
 	@docker volume rm $$(docker volume ls -q)
-	@docker network rm $$(docker network ls -q)
+	# @docker network rm $$(docker network ls -q)
+	
 
 prune:
 	@docker system prune -a -f
 
 start:
-	@cd ./srcs && docker-compose up --build -d 
+	@mkdir -p /home/sthrace/data/wp
+	@mkdir -p /home/sthrace/data/db
+	@cd ./srcs && docker-compose up --build -d
 
 stop:
-	@cd ./srcs && docker-compose down
+	@cd ./srcs && docker-compose down	
 
 host:
 	@echo '127.0.0.1 sthrace.42.fr' >> /etc/hosts 
